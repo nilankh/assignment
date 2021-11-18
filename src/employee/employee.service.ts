@@ -37,12 +37,22 @@ export class EmployeeService {
   }
 
   async delete(id: string): Promise<Employee> {
-    return await this.employeeModel.findByIdAndDelete(id);
+    try {
+      const a1 = await this.employeeModel.findByIdAndDelete(id);
+      return a1;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 
   async update(id: string, employee: Employee): Promise<Employee> {
-    return await this.employeeModel.findByIdAndUpdate(id, employee, {
-      new: true,
-    });
+    try {
+      const a1 = await this.employeeModel.findByIdAndUpdate(id, employee, {
+        new: true,
+      });
+      return a1;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 }
