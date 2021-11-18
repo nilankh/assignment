@@ -8,17 +8,23 @@ describe('EmployeeService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [EmployeeService, {
-        provide: getModelToken(Employee.name),
-        useValue: {
-          create: jest.fn((employee: Employee) => {
-            return {
-              ...employee,
-              id: 1
-            };
-          })
-        }
-      }],
+      providers: [
+        EmployeeService,
+        {
+          provide: getModelToken(Employee.name),
+          useValue: {
+            create: jest.fn((employee: Employee) => {
+              return {
+                ...employee,
+                id: 1,
+              };
+            }),
+            find: jest.fn(() => {
+              return [];
+            }),
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<EmployeeService>(EmployeeService);
@@ -32,9 +38,14 @@ describe('EmployeeService', () => {
     const employee = {
       name: 'Nilank Nikhil',
       age: 1,
-      salary: 1
+      salary: 1,
     };
     const v1 = await service.create(employee);
-    expect(v1).toStrictEqual({...employee, id: 1});
-  })
+    expect(v1).toStrictEqual({ ...employee, id: 1 });
+  });
+
+  it('It should return an empty array', async () => {
+    const v1 = await service.findAll();
+    expect(v1).toStrictEqual([]);
+  });
 });

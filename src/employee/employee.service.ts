@@ -10,7 +10,12 @@ export class EmployeeService {
   ) {}
 
   async findAll(): Promise<Employee[]> {
-    return await this.employeeModel.find();
+    try {
+      const a1 = await this.employeeModel.find();
+      return a1;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 
   async findOne(id: string): Promise<Employee> {
