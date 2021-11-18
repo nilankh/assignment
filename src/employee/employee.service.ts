@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Employee } from './interfaces/employee.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -18,8 +18,12 @@ export class EmployeeService {
   }
 
   async create(employee: Employee): Promise<Employee> {
-    const newEmployee = new this.employeeModel(employee);
-    return await newEmployee.save();
+    try {
+      const newEmployee = await this.employeeModel.create(employee);
+      return newEmployee;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 
   async delete(id: string): Promise<Employee> {
