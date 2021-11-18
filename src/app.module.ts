@@ -5,10 +5,18 @@ import { EmployeeController } from './employee/employee.controller';
 import { EmployeeService } from './employee/employee.service';
 import { EmployeeModule } from './employee/employee.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import config from './config/keys';
+import { ConfigModule } from '@nestjs/config';
+// import config from './config/keys';
 
 @Module({
-  imports: [EmployeeModule, MongooseModule.forRoot(config.mongoURI)],
+  // imports: [EmployeeModule, MongooseModule.forRoot(config.mongoURI)],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.keys.env',
+    }),
+    EmployeeModule,
+    MongooseModule.forRoot(process.env.DATABASE_URI),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
