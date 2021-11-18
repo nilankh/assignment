@@ -22,6 +22,18 @@ describe('EmployeeService', () => {
             find: jest.fn(() => {
               return [];
             }),
+
+            findOne: jest.fn((condition: { _id: string }) => {
+              const v1 = {
+                name: 'abc',
+                age: 2,
+                salary: 1,
+              };
+              return {
+                ...v1,
+                ...condition,
+              };
+            }),
           },
         },
       ],
@@ -47,5 +59,10 @@ describe('EmployeeService', () => {
   it('It should return an empty array', async () => {
     const v1 = await service.findAll();
     expect(v1).toStrictEqual([]);
+  });
+
+  it('It should return an id', async () => {
+    const v1 = await service.findOne('1');
+    expect(v1).toStrictEqual({ name: 'abc', age: 2, salary: 1, _id: '1' });
   });
 });
