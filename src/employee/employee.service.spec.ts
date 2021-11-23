@@ -35,17 +35,11 @@ describe('EmployeeService', () => {
               };
             }),
 
-            // delete: jest.fn((condition: { _id: string }) => {
-            //   const v1 = {
-            //     name: 'abc',
-            //     age: 2,
-            //     salary: 1,
-            //   };
-            //   return {
-            //     ...v1,
-            //     ...condition,
-            //   };
-            // }),
+            findByIdAndDelete: jest.fn((_id: string) => {
+              return {
+                _id,
+              };
+            }),
             findByIdAndUpdate: jest.fn((_id: string, employee: Employee) => {
               const v1 = {
                 name: 'abc',
@@ -54,7 +48,7 @@ describe('EmployeeService', () => {
               };
               return {
                 // ...condition,
-               _id,
+                _id,
                 ...v1,
                 ...employee,
               };
@@ -91,11 +85,10 @@ describe('EmployeeService', () => {
     expect(v1).toStrictEqual({ name: 'abc', age: 2, salary: 1, _id: '1' });
   });
 
-  // it('It should return an array', async () => {
-  //   const v1 = await service.delete('1');
-  //   expect(v1).toStrictEqual({ name: 'abc', age: 2, salary: 1 });
-  // });
-
+  it('It should delete', async () => {
+    const v1 = await service.delete('1');
+    expect(v1).toStrictEqual({ _id: '1' });
+  });
   it('It should return an updated employee', async () => {
     const employee = {
       name: 'abc',
