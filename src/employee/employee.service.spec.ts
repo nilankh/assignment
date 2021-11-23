@@ -35,22 +35,30 @@ describe('EmployeeService', () => {
               };
             }),
 
-            delete: jest.fn((condition: { _id: string }) => {
+            // delete: jest.fn((condition: { _id: string }) => {
+            //   const v1 = {
+            //     name: 'abc',
+            //     age: 2,
+            //     salary: 1,
+            //   };
+            //   return {
+            //     ...v1,
+            //     ...condition,
+            //   };
+            // }),
+            findByIdAndUpdate: jest.fn((_id: string, employee: Employee) => {
               const v1 = {
                 name: 'abc',
                 age: 2,
                 salary: 1,
               };
               return {
+                // ...condition,
+               _id,
                 ...v1,
-                ...condition,
+                ...employee,
               };
             }),
-            update: jest.fn(
-              (employee: Employee, condition: { _id: string }) => {
-                
-              },
-            ),
           },
         },
       ],
@@ -83,8 +91,18 @@ describe('EmployeeService', () => {
     expect(v1).toStrictEqual({ name: 'abc', age: 2, salary: 1, _id: '1' });
   });
 
-  it('It should return an array', async () => {
-    const v1 = await service.delete('1');
-    expect(v1).toStrictEqual({ name: 'abc', age: 2, salary: 1 });
+  // it('It should return an array', async () => {
+  //   const v1 = await service.delete('1');
+  //   expect(v1).toStrictEqual({ name: 'abc', age: 2, salary: 1 });
+  // });
+
+  it('It should return an updated employee', async () => {
+    const employee = {
+      name: 'abc',
+      age: 2,
+      salary: 1,
+    };
+    const v1 = await service.update('1', employee);
+    expect(v1).toStrictEqual({ _id: '1', ...employee });
   });
 });

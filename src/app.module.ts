@@ -12,7 +12,7 @@ import { ConfigModule } from '@nestjs/config';
   // imports: [EmployeeModule, MongooseModule.forRoot(config.mongoURI)],
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.keys.env',
+      envFilePath: '.env',
     }),
     EmployeeModule,
     MongooseModule.forRoot(process.env.DATABASE_URI),
